@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>台场建设株式会社 - 实验数据计算器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(to right, #2c3e50, #4a69bd);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            border-bottom: 5px solid #e74c3c;
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 25px;
+        }
+        
+        .intro {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border-left: 5px solid #3498db;
+        }
+        
+        .intro p {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        
+        .mode-selector {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .mode-btn {
+            flex: 1;
+            min-width: 200px;
+            padding: 15px;
+            background: linear-gradient(to right, #3498db, #2980b9);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .mode-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+            background: linear-gradient(to right, #2980b9, #1f6397);
+        }
+        
+        .mode-btn.active {
+            background: linear-gradient(to right, #e74c3c, #c0392b);
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.5);
+        }
+        
+        .input-section {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            display: none;
+        }
+        
+        .input-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .input-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus, textarea:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+        
+        .data-input {
+            height: 100px;
+            resize: vertical;
+        }
+        
+        .calculate-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(to right, #27ae60, #219653);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .calculate-btn:hover {
+            background: linear-gradient(to right, #219653, #1e8449);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .result-section {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 25px;
+            display: none;
+        }
+        
+        .result-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .result-title {
+            font-size: 1.4rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+        }
+        
+        .result-item {
+            margin-bottom: 10px;
+            padding: 8px 0;
+            border-bottom: 1px dashed #ddd;
+        }
+        
+        .signature {
+            text-align: center;
+            margin-top: 25px;
+            padding: 15px;
+            background-color: #f1f2f6;
+            border-radius: 8px;
+            font-style: italic;
+            color: #7f8c8d;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(to right, #2c3e50, #4a69bd);
+            color: white;
+            margin-top: 25px;
+        }
+        
+        .footer p {
+            margin-bottom: 10px;
+        }
+        
+        .special-message {
+            color: #e74c3c;
+            font-weight: bold;
+            margin-top: 15px;
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .mode-selector {
+                flex-direction: column;
+            }
+            
+            .mode-btn {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>台场建设株式会社</h1>
+            <p class="subtitle">实验数据计算器</p>
+        </header>
+        
+        <div class="content">
+            <div class="intro">
+                <p>这是一个基物实验计算器，也可以用于其他实验报告的撰写。</p>
+                <p>这个计算器可以帮你计算不确定度和回归相关的数据，以及平均值之类一切你可能需要的东西，它可以一次处理多组甚至两组数据。</p>
+                <p>填数据不要用科学计数法，但是它会出科学计数法的数据。</p>
+                <p>如果你使用的是网页版本，那么请享受现代化的界面体验！</p>
+            </div>
+            
+            <div class="mode-selector">
+                <button class="mode-btn" data-mode="regression">回归模式</button>
+                <button class="mode-btn" data-mode="uncertainty">不确定度模式</button>
+                <button class="mode-btn" data-mode="food">去哪吃饭</button>
+            </div>
+            
+            <div id="regression-section" class="input-section">
+                <h2>回归模式</h2>
+                <p>先输入x再输入y，输入的x和y要一一对应，比如x1,x2,x3，那y也是y1,y2,y3。</p>
+                
+                <div class="input-group">
+                    <label for="x-data">X 数据（用英文逗号隔开）</label>
+                    <textarea id="x-data" class="data-input" placeholder="例如: 1.2, 3.4, 5.6, 7.8"></textarea>
+                </div>
+                
+                <div class="input-group">
+                    <label for="y-data">Y 数据（用英文逗号隔开）</label>
+                    <textarea id="y-data" class="data-input" placeholder="例如: 2.1, 4.3, 6.5, 8.7"></textarea>
+                </div>
+                
+                <div class="input-group">
+                    <label for="ub-x">X 的 B类不确定度 ub</label>
+                    <input type="number" id="ub-x" step="any" placeholder="常用游标卡尺ub（单位为m）为0.000011547">
+                </div>
+                
+                <div class="input-group">
+                    <label for="ub-y">Y 的 B类不确定度 ub</label>
+                    <input type="number" id="ub-y" step="any" placeholder="天平是（单位为kg）0.0000057735">
+                </div>
+                
+                <button class="calculate-btn" id="calculate-regression">计算回归</button>
+            </div>
+            
+            <div id="uncertainty-section" class="input-section">
+                <h2>不确定度模式</h2>
+                
+                <div class="input-group">
+                    <label for="data-count">数据组数</label>
+                    <input type="number" id="data-count" min="0" value="1" placeholder="输入数据组数">
+                </div>
+                
+                <div id="data-inputs">
+                    <div class="input-group">
+                        <label for="data-1">第 1 组数据（用英文逗号隔开）</label>
+                        <textarea id="data-1" class="data-input" placeholder="例如: 1.2, 3.4, 5.6, 7.8"></textarea>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="ub-1">第 1 组数据的 B类不确定度 ub</label>
+                        <input type="number" id="ub-1" step="any" placeholder="常用游标卡尺ub（单位为m）为0.000011547">
+                    </div>
+                </div>
+                
+                <button class="calculate-btn" id="calculate-uncertainty">计算不确定度</button>
+                
+                <div class="input-group" style="margin-top: 30px;">
+                    <h3>总不确定度计算</h3>
+                    <label for="total-uncertainty-ratios">输入每个不确定度比数据均值（用英文逗号隔开）</label>
+                    <input type="text" id="total-uncertainty-ratios" placeholder="例如: 0.01, 0.02, 0.015">
+                </div>
+                
+                <div class="input-group">
+                    <label for="total-mean">总不确定度对应的数据均值</label>
+                    <input type="number" id="total-mean" step="any" placeholder="输入总不确定度对应的数据均值">
+                </div>
+                
+                <button class="calculate-btn" id="calculate-total-uncertainty">计算总不确定度</button>
+            </div>
+            
+            <div id="food-section" class="input-section">
+                <h2>去哪吃饭</h2>
+                <p>点击下面的按钮，让系统帮你决定今天去哪里吃饭！</p>
+                <button class="calculate-btn" id="decide-food">决定去哪吃饭</button>
+                <div id="food-result" style="margin-top: 20px; font-size: 1.2rem; text-align: center;"></div>
+            </div>
+            
+            <div id="result-section" class="result-section">
+                <h2 class="result-title">计算结果</h2>
+                <div id="result-content"></div>
+            </div>
+            
+            <div class="signature" id="signature">
+                数据处理员: 台场建设株式会社 代表取缔役 台场静马
+            </div>
+            
+            <div class="special-message" id="special-message">
+                其实，我有一百零八个情人~♥
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>感谢使用 | 台场建设株式会社</p>
+            <p>要好好吃饭哦~♥</p>
+        </div>
+    </div>
+
+    <script>
+        // 签名列表
+        const signatures = [
+            "台场建设株式会社 代表取缔役 台场静马",
+            "新木场侦探社 大崎■■",
+            "新木场侦探社 新木场",
+            "新木场侦探社 品川",
+            "外包人员 有明胜太郎（为了大崎先生，我会努力的……！）",
+            "外包人员 竹芝叶藏（计算这种东西，根本不是我能做的啊///）",
+            "？？？ 大江杏//////ERROR......RELOADING......ERROR",
+            "台场佐清♥感谢使用~",
+            "|诚！|新选组局长-近藤勇",
+            "新选组副长-土方岁三",
+            "会津藩-斋藤一",
+            "试卫馆-冲田总司",
+            "新选组总长-山南敬助",
+            ">某匿名审神者<",
+            ">-数字啊，风雅地消散吧！-歌仙兼定<",
+            "/人理保障机构迦勒底/玛修",
+            "/人理保障机构迦勒底/罗马尼",
+            "/人理保障机构迦勒底/藤丸立香",
+            "红月☽ 莲巳敬人",
+            "红月☽ 鬼龙红郎",
+            "红月☽ 神崎飒马",
+            "|辉光之境|W.M氏|我们指引前路，我们照明驱暗，我们无有怜悯之心|",
+            "LOBOTOMY_CORP_CHESED",
+            "盖尔.德卡里奥斯",
+            "塔拉"
+        ];
+        
+        // 餐厅列表
+        const restaurants = [
+            "合一二楼", "合一三楼", "合一四楼", 
+            "新北一楼", "新北二楼", "新北三楼", 
+            "学二？", "外食"
+        ];
+        
+        const outsideFood = [
+            "牛肉面", "小笼包", "其他外食"
+        ];
+        
+        // 页面加载时随机选择一个签名
+        document.addEventListener('DOMContentLoaded', function() {
+            const signatureElement = document.getElementById('signature');
+            const randomSignature = signatures[Math.floor(Math.random() * signatures.length)];
+            signatureElement.textContent = `数据处理员: ${randomSignature}`;
+            
+            // 模式选择按钮事件
+            const modeButtons = document.querySelectorAll('.mode-btn');
+            modeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // 移除所有按钮的active类
+                    modeButtons.forEach(btn => btn.classList.remove('active'));
+                    // 添加当前按钮的active类
+                    this.classList.add('active');
+                    
+                    // 隐藏所有输入区域
+                    document.querySelectorAll('.input-section').forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    
+                    // 显示对应的输入区域
+                    const mode = this.getAttribute('data-mode');
+                    document.getElementById(`${mode}-section`).classList.add('active');
+                    
+                    // 隐藏结果区域
+                    document.getElementById('result-section').classList.remove('active');
+                });
+            });
+            
+            // 数据组数变化事件
+            document.getElementById('data-count').addEventListener('change', updateDataInputs);
+            
+            // 计算回归按钮事件
+            document.getElementById('calculate-regression').addEventListener('click', calculateRegression);
+            
+            // 计算不确定度按钮事件
+            document.getElementById('calculate-uncertainty').addEventListener('click', calculateUncertainty);
+            
+            // 计算总不确定度按钮事件
+            document.getElementById('calculate-total-uncertainty').addEventListener('click', calculateTotalUncertainty);
+            
+            // 决定去哪吃饭按钮事件
+            document.getElementById('decide-food').addEventListener('click', decideFood);
+        });
+        
+        // 更新数据输入框
+        function updateDataInputs() {
+            const count = parseInt(document.getElementById('data-count').value) || 0;
+            const container = document.getElementById('data-inputs');
+            container.innerHTML = '';
+            
+            for (let i = 1; i <= count; i++) {
+                const dataGroup = document.createElement('div');
+                dataGroup.className = 'input-group';
+                dataGroup.innerHTML = `
+                    <label for="data-${i}">第 ${i} 组数据（用英文逗号隔开）</label>
+                    <textarea id="data-${i}" class="data-input" placeholder="例如: 1.2, 3.4, 5.6, 7.8"></textarea>
+                `;
+                container.appendChild(dataGroup);
+                
+                const ubGroup = document.createElement('div');
+                ubGroup.className = 'input-group';
+                ubGroup.innerHTML = `
+                    <label for="ub-${i}">第 ${i} 组数据的 B类不确定度 ub</label>
+                    <input type="number" id="ub-${i}" step="any" placeholder="常用游标卡尺ub（单位为m）为0.000011547">
+                `;
+                container.appendChild(ubGroup);
+            }
+        }
+        
+        // 解析输入的数据
+        function parseData(input) {
+            return input.split(',').map(item => parseFloat(item.trim())).filter(item => !isNaN(item));
+        }
+        
+        // 计算平方
+        function square(x) {
+            return x * x;
+        }
+        
+        // 计算平均值
+        function average(data) {
+            return data.reduce((sum, value) => sum + value, 0) / data.length;
+        }
+        
+        // 计算不确定度
+        function calculateUncertaintyForData(data, ub) {
+            const length = data.length;
+            const sum = data.reduce((acc, val) => acc + val, 0);
+            const mean = sum / length;
+            
+            // 计算平方和
+            const sumSquares = data.reduce((acc, val) => acc + square(val), 0);
+            const meanSquare = sumSquares / length;
+            
+            // 计算方差
+            const deviations = data.map(x => x - mean);
+            const sumSquaredDeviations = deviations.reduce((acc, dev) => acc + square(dev), 0);
+            const variance = sumSquaredDeviations / length;
+            
+            // 计算不确定度
+            const ua = Math.sqrt(sumSquaredDeviations / (length * (length - 1)));
+            const u = Math.sqrt(square(ua) + square(ub));
+            const pu = u / mean;
+            
+            return {
+                length,
+                sum,
+                mean,
+                meanSquare,
+                sumSquaredDeviations,
+                variance,
+                ua,
+                ub,
+                u,
+                pu,
+                deviations
+            };
+        }
+        
+        // 计算回归
+        function calculateRegression() {
+            const xData = parseData(document.getElementById('x-data').value);
+            const yData = parseData(document.getElementById('y-data').value);
+            const ubX = parseFloat(document.getElementById('ub-x').value) || 0;
+            const ubY = parseFloat(document.getElementById('ub-y').value) || 0;
+            
+            if (xData.length === 0 || yData.length === 0) {
+                alert('请输入有效的X和Y数据');
+                return;
+            }
+            
+            if (xData.length !== yData.length) {
+                alert('X和Y数据的数量必须相同');
+                return;
+            }
+            
+            // 计算X和Y的不确定度
+            const xResult = calculateUncertaintyForData(xData, ubX);
+            const yResult = calculateUncertaintyForData(yData, ubY);
+            
+            // 计算协方差
+            let covarianceSum = 0;
+            for (let i = 0; i < xData.length; i++) {
+                covarianceSum += (xData[i] - xResult.mean) * (yData[i] - yResult.mean);
+            }
+            
+            // 计算回归系数
+            const r = covarianceSum / Math.sqrt(xResult.sumSquaredDeviations * yResult.sumSquaredDeviations);
+            const b = covarianceSum / xResult.sumSquaredDeviations;
+            const a = yResult.mean - b * xResult.mean;
+            
+            // 显示结果
+            const resultContent = document.getElementById('result-content');
+            resultContent.innerHTML = `
+                <div class="result-item"><strong>相关系数 r =</strong> ${r.toExponential(6)}</div>
+                <div class="result-item"><strong>回归方程：</strong> y = ${b.toExponential(6)} x + ${a.toExponential(6)}</div>
+                <div class="result-item"><strong>X 数据统计：</strong></div>
+                <div class="result-item">数据个数: ${xResult.length}</div>
+                <div class="result-item">和: ${xResult.sum.toExponential(6)}</div>
+                <div class="result-item">均值: ${xResult.mean.toExponential(6)}</div>
+                <div class="result-item">均方值: ${xResult.meanSquare.toExponential(6)}</div>
+                <div class="result-item">方差乘数据个数: ${xResult.sumSquaredDeviations.toExponential(6)}</div>
+                <div class="result-item">方差: ${xResult.variance.toExponential(6)}</div>
+                <div class="result-item">A类不确定度 ua: ${xResult.ua.toExponential(6)}</div>
+                <div class="result-item">B类不确定度 ub: ${xResult.ub.toExponential(6)}</div>
+                <div class="result-item">不确定度 u(x): ${xResult.u.toExponential(6)}</div>
+                <div class="result-item">不确定度比数据均值 u(x)/x: ${xResult.pu.toExponential(6)}</div>
+                
+                <div class="result-item" style="margin-top: 15px;"><strong>Y 数据统计：</strong></div>
+                <div class="result-item">数据个数: ${yResult.length}</div>
+                <div class="result-item">和: ${yResult.sum.toExponential(6)}</div>
+                <div class="result-item">均值: ${yResult.mean.toExponential(6)}</div>
+                <div class="result-item">均方值: ${yResult.meanSquare.toExponential(6)}</div>
+                <div class="result-item">方差乘数据个数: ${yResult.sumSquaredDeviations.toExponential(6)}</div>
+                <div class="result-item">方差: ${yResult.variance.toExponential(6)}</div>
+                <div class="result-item">A类不确定度 ua: ${yResult.ua.toExponential(6)}</div>
+                <div class="result-item">B类不确定度 ub: ${yResult.ub.toExponential(6)}</div>
+                <div class="result-item">不确定度 u(x): ${yResult.u.toExponential(6)}</div>
+                <div class="result-item">不确定度比数据均值 u(x)/x: ${yResult.pu.toExponential(6)}</div>
+            `;
+            
+            document.getElementById('result-section').classList.add('active');
+            
+            // 随机显示特殊消息
+            showSpecialMessage();
+        }
+        
+        // 计算不确定度
+        function calculateUncertainty() {
+            const count = parseInt(document.getElementById('data-count').value) || 0;
+            let resultHTML = '';
+            
+            for (let i = 1; i <= count; i++) {
+                const dataInput = document.getElementById(`data-${i}`);
+                const ubInput = document.getElementById(`ub-${i}`);
+                
+                if (!dataInput || !ubInput) continue;
+                
+                const data = parseData(dataInput.value);
+                const ub = parseFloat(ubInput.value) || 0;
+                
+                if (data.length === 0) continue;
+                
+                const result = calculateUncertaintyForData(data, ub);
+                
+                resultHTML += `
+                    <div class="result-item"><strong>数据组 ${i}</strong></div>
+                    <div class="result-item">数据个数: ${result.length}</div>
+                    <div class="result-item">和: ${result.sum.toExponential(6)}</div>
+                    <div class="result-item">均值: ${result.mean.toExponential(6)}</div>
+                    <div class="result-item">均方值: ${result.meanSquare.toExponential(6)}</div>
+                    <div class="result-item">方差乘数据个数: ${result.sumSquaredDeviations.toExponential(6)}</div>
+                    <div class="result-item">方差: ${result.variance.toExponential(6)}</div>
+                    <div class="result-item">A类不确定度 ua: ${result.ua.toExponential(6)}</div>
+                    <div class="result-item">B类不确定度 ub: ${result.ub.toExponential(6)}</div>
+                    <div class="result-item">不确定度 u(x): ${result.u.toExponential(6)}</div>
+                    <div class="result-item">不确定度比数据均值 u(x)/x: ${result.pu.toExponential(6)}</div>
+                    <hr style="margin: 15px 0;">
+                `;
+            }
+            
+            if (resultHTML) {
+                document.getElementById('result-content').innerHTML = resultHTML;
+                document.getElementById('result-section').classList.add('active');
+                
+                // 随机显示特殊消息
+                showSpecialMessage();
+            } else {
+                alert('请输入有效的数据');
+            }
+        }
+        
+        // 计算总不确定度
+        function calculateTotalUncertainty() {
+            const ratiosInput = document.getElementById('total-uncertainty-ratios').value;
+            const meanInput = parseFloat(document.getElementById('total-mean').value) || 0;
+            
+            if (!ratiosInput) {
+                alert('请输入不确定度比值');
+                return;
+            }
+            
+            const ratios = parseData(ratiosInput);
+            const sumSquaredRatios = ratios.reduce((sum, ratio) => sum + square(ratio), 0);
+            const totalUncertaintyRatio = Math.sqrt(sumSquaredRatios);
+            const totalUncertainty = meanInput * totalUncertaintyRatio;
+            
+            document.getElementById('result-content').innerHTML = `
+                <div class="result-item"><strong>总不确定度比数据均值:</strong> ${totalUncertaintyRatio.toExponential(6)}</div>
+                <div class="result-item"><strong>总不确定度:</strong> ${totalUncertainty.toExponential(6)}</div>
+            `;
+            
+            document.getElementById('result-section').classList.add('active');
+            
+            // 随机显示特殊消息
+            showSpecialMessage();
+        }
+        
+        // 决定去哪吃饭
+        function decideFood() {
+            const restaurant = restaurants[Math.floor(Math.random() * restaurants.length)];
+            let result = restaurant;
+            
+            if (restaurant === "外食") {
+                const outside = outsideFood[Math.floor(Math.random() * outsideFood.length)];
+                result = `${restaurant} - ${outside}`;
+            }
+            
+            document.getElementById('food-result').innerHTML = `
+                <div style="font-size: 1.5rem; color: #e74c3c; margin-bottom: 10px;">${result}</div>
+                <div style="color: #7f8c8d;">要好好吃饭哦~♥</div>
+            `;
+            
+            // 随机显示特殊消息
+            showSpecialMessage();
+        }
+        
+        // 显示特殊消息
+        function showSpecialMessage() {
+            // 有1/108的概率显示特殊消息
+            if (Math.floor(Math.random() * 108) === 107) {
+                document.getElementById('special-message').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>
