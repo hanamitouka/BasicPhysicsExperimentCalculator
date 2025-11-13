@@ -56,3 +56,14 @@ html版本（deepseek重写的）
 斋藤一到你的池子你也要像这样乖乖来到我身边好吗好的
 
 ![efed0defcb3181ecea39e4c81cba9808](https://github.com/user-attachments/assets/9f0be6ff-a9aa-4adc-8ca0-98cb233df975)
+
+大概是今天肝完活动抽的十连然后出了
+
+？
+
+![5d33fb3dbc4722f5404ebb6d6bf9aca4](https://github.com/user-attachments/assets/f240a8ea-07c9-4fe6-8204-8d76728d3e82)
+![88233fe01cfbcb6cd1f4698af104d39d](https://github.com/user-attachments/assets/eb02191d-0769-4284-9622-d36be37874b4)
+![af6a588d9a60778f87af303338c2a45c](https://github.com/user-attachments/assets/f0e1931e-97ec-4cbe-9ee9-844437d96d99)
+
+当年限锻单抽八丁念佛好像也是这个心情（）虽然不是很推他
+
