@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>台场建设株式会社 - 实验数据计算器</title>
+    <title>实验数据计算器 - 台场建设株式会社</title>
     <style>
         * {
             margin: 0;
@@ -13,38 +13,40 @@
         }
         
         body {
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            background-color: #f5f5f5;
             color: #333;
             min-height: 100vh;
             padding: 20px;
+            line-height: 1.6;
         }
         
         .container {
             max-width: 1000px;
             margin: 0 auto;
-            background-color: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             overflow: hidden;
         }
         
         header {
-            background: linear-gradient(to right, #2c3e50, #4a69bd);
-            color: white;
+            background-color: #333;
+            color: #fff;
             padding: 25px;
             text-align: center;
-            border-bottom: 5px solid #e74c3c;
+            border-bottom: 1px solid #ddd;
         }
         
         h1 {
             font-size: 2.2rem;
             margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            font-weight: 300;
         }
         
         .subtitle {
             font-size: 1.1rem;
-            opacity: 0.9;
+            opacity: 0.8;
+            font-weight: 300;
         }
         
         .content {
@@ -52,16 +54,15 @@
         }
         
         .intro {
-            background-color: #f8f9fa;
+            background-color: #f9f9f9;
             padding: 20px;
-            border-radius: 10px;
+            border-radius: 6px;
             margin-bottom: 25px;
-            border-left: 5px solid #3498db;
+            border-left: 4px solid #666;
         }
         
         .intro p {
             margin-bottom: 10px;
-            line-height: 1.6;
         }
         
         .mode-selector {
@@ -75,43 +76,43 @@
             flex: 1;
             min-width: 200px;
             padding: 15px;
-            background: linear-gradient(to right, #3498db, #2980b9);
-            color: white;
-            border: none;
-            border-radius: 8px;
+            background-color: #fff;
+            color: #333;
+            border: 1px solid #ddd;
+            border-radius: 6px;
             font-size: 1.1rem;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
         }
         
         .mode-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-            background: linear-gradient(to right, #2980b9, #1f6397);
+            background-color: #f0f0f0;
+            border-color: #999;
         }
         
         .mode-btn.active {
-            background: linear-gradient(to right, #e74c3c, #c0392b);
-            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.5);
+            background-color: #333;
+            color: #fff;
+            border-color: #333;
         }
         
         .input-section {
-            background-color: #f8f9fa;
+            background-color: #f9f9f9;
             padding: 20px;
-            border-radius: 10px;
+            border-radius: 6px;
             margin-bottom: 25px;
             display: none;
+            border: 1px solid #eee;
         }
         
         .input-section.active {
             display: block;
-            animation: fadeIn 0.5s ease;
+            animation: fadeIn 0.3s ease;
         }
         
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         
         .input-group {
@@ -121,21 +122,22 @@
         label {
             display: block;
             margin-bottom: 8px;
-            font-weight: 600;
-            color: #2c3e50;
+            font-weight: 500;
+            color: #333;
         }
         
         input, textarea {
             width: 100%;
             padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 6px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
             font-size: 1rem;
-            transition: border-color 0.3s;
+            transition: border-color 0.2s;
+            background-color: #fff;
         }
         
         input:focus, textarea:focus {
-            border-color: #3498db;
+            border-color: #666;
             outline: none;
         }
         
@@ -148,42 +150,40 @@
             display: block;
             width: 100%;
             padding: 15px;
-            background: linear-gradient(to right, #27ae60, #219653);
-            color: white;
+            background-color: #333;
+            color: #fff;
             border: none;
-            border-radius: 8px;
+            border-radius: 6px;
             font-size: 1.1rem;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             margin-top: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         
         .calculate-btn:hover {
-            background: linear-gradient(to right, #219653, #1e8449);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+            background-color: #555;
         }
         
         .result-section {
-            background-color: #f8f9fa;
+            background-color: #f9f9f9;
             padding: 20px;
-            border-radius: 10px;
+            border-radius: 6px;
             margin-top: 25px;
             display: none;
+            border: 1px solid #eee;
         }
         
         .result-section.active {
             display: block;
-            animation: fadeIn 0.5s ease;
+            animation: fadeIn 0.3s ease;
         }
         
         .result-title {
             font-size: 1.4rem;
-            color: #2c3e50;
+            color: #333;
             margin-bottom: 15px;
             padding-bottom: 10px;
-            border-bottom: 2px solid #3498db;
+            border-bottom: 1px solid #ddd;
         }
         
         .result-item {
@@ -196,17 +196,18 @@
             text-align: center;
             margin-top: 25px;
             padding: 15px;
-            background-color: #f1f2f6;
-            border-radius: 8px;
+            background-color: #f5f5f5;
+            border-radius: 6px;
             font-style: italic;
-            color: #7f8c8d;
+            color: #666;
+            border: 1px solid #eee;
         }
         
         .footer {
             text-align: center;
             padding: 20px;
-            background: linear-gradient(to right, #2c3e50, #4a69bd);
-            color: white;
+            background-color: #333;
+            color: #fff;
             margin-top: 25px;
         }
         
@@ -215,10 +216,12 @@
         }
         
         .special-message {
-            color: #e74c3c;
+            color: #333;
             font-weight: bold;
             margin-top: 15px;
             display: none;
+            text-align: center;
+            font-style: italic;
         }
         
         @media (max-width: 768px) {
@@ -235,8 +238,8 @@
 <body>
     <div class="container">
         <header>
-            <h1>台场建设株式会社</h1>
-            <p class="subtitle">实验数据计算器</p>
+            <h1>实验数据计算器</h1>
+            <p class="subtitle">台场建设株式会社</p>
         </header>
         
         <div class="content">
@@ -244,7 +247,7 @@
                 <p>这是一个基物实验计算器，也可以用于其他实验报告的撰写。</p>
                 <p>这个计算器可以帮你计算不确定度和回归相关的数据，以及平均值之类一切你可能需要的东西，它可以一次处理多组甚至两组数据。</p>
                 <p>填数据不要用科学计数法，但是它会出科学计数法的数据。</p>
-                <p>如果你使用的是网页版本，那么请享受现代化的界面体验！</p>
+                <p>如果你使用的是网页版本，那么请享受简洁高效的界面体验！</p>
             </div>
             
             <div class="mode-selector">
@@ -536,11 +539,19 @@
             const b = covarianceSum / xResult.sumSquaredDeviations;
             const a = yResult.mean - b * xResult.mean;
             
+            // 计算b的不确定度
+            let uab = 0;
+            if (xData.length > 2 && r !== 0) {
+                const uabs = (1 / (xData.length - 2)) * ((1 / (r * r)) - 1);
+                uab = b * Math.sqrt(uabs);
+            }
+            
             // 显示结果
             const resultContent = document.getElementById('result-content');
             resultContent.innerHTML = `
                 <div class="result-item"><strong>相关系数 r =</strong> ${r.toExponential(6)}</div>
                 <div class="result-item"><strong>回归方程：</strong> y = ${b.toExponential(6)} x + ${a.toExponential(6)}</div>
+                <div class="result-item"><strong>b的A类不确定度：</strong> ${uab.toExponential(6)}</div>
                 <div class="result-item"><strong>X 数据统计：</strong></div>
                 <div class="result-item">数据个数: ${xResult.length}</div>
                 <div class="result-item">和: ${xResult.sum.toExponential(6)}</div>
@@ -654,8 +665,8 @@
             }
             
             document.getElementById('food-result').innerHTML = `
-                <div style="font-size: 1.5rem; color: #e74c3c; margin-bottom: 10px;">${result}</div>
-                <div style="color: #7f8c8d;">要好好吃饭哦~♥</div>
+                <div style="font-size: 1.5rem; margin-bottom: 10px;">${result}</div>
+                <div style="color: #666;">要好好吃饭哦~♥</div>
             `;
             
             // 随机显示特殊消息

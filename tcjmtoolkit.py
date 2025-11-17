@@ -79,6 +79,10 @@ def modd():
 
         print("相关系数 r =", r)
         print("回归方程：y =", b, "x +", a)
+        uabs = (1/(len(datasx)-2))*((1/(r**2))-1)
+        
+        uab = b*math.sqrt(uabs)
+        print("b的a类不确定度：",uab)
     
     elif mod == "去哪吃饭":
         fan = ["合一二楼","合一三楼","合一四楼","新北一楼","新北二楼","新北三楼","学二？","外食"]
